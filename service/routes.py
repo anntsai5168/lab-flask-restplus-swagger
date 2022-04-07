@@ -126,7 +126,7 @@ def database_connection_error(error):
 ######################################################################
 # Authorization Decorator
 ######################################################################
-def token_required(f):
+def token_required(f): # no need to check the token every time
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
@@ -268,7 +268,7 @@ class PetCollection(Resource):
     #------------------------------------------------------------------
     @api.doc('create_pets', security='apikey')
     @api.response(400, 'The posted data was not valid')
-    @api.expect(create_model)
+    @api.expect(create_model)                            # this function wont be called unless we get create_model
     @api.marshal_with(pet_model, code=201)
     @token_required
     def post(self):
